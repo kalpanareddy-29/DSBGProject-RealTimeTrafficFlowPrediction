@@ -6,6 +6,9 @@
 ## 📁 Project Structure
 
 ```
+## 📁 Project Structure
+
+```
 DATAS/
 │
 ├── data/
@@ -19,41 +22,33 @@ DATAS/
 ├── models/
 │   ├── best_model.keras                # Best saved model
 │   ├── traffic_bilstm_attention.keras  # Final trained model
-│   ├── scaler.save                    # MinMaxScaler for normalization
+│   ├── scaler.save                    # MinMaxScaler
 │   ├── X_test.npy                     # Test input data
 │   ├── y_test.npy                     # Test labels
 │
 ├── src/
-│   ├── extract.py     # Extracts data from .h5 → CSV
+│   ├── extract.py     # Extracts .h5 → CSV
 │   ├── filling.py     # Handles missing values
-│   ├── model.py       # Trains BiLSTM + Attention model
-│   ├── predict.py     # Offline prediction testing
-│
-│   ├── producer.py    # Kafka producer (streams data)
-│   ├── consumer.py    # Kafka consumer (predicts + saves results)
-│
-│   ├── visual.py      # Data visualization (EDA, trends)
-│   ├── dashboard.py   # Streamlit dashboard (real-time visualization)
+│   ├── model.py       # Model training
+│   ├── predict.py     # Offline prediction
+│   ├── producer.py    # Kafka producer
+│   ├── consumer.py    # Kafka consumer
+│   ├── visual.py      # Data visualization (EDA)
+│   ├── dashboard.py   # Streamlit dashboard
 │
 ├── templates/
-│   └── index.html     # Frontend UI for Flask API
+│   └── index.html     # Frontend UI
 │
 ├── test/
-│   ├── test_api.py    # API testing using pytest
-│   ├── test.py        # Additional testing script
+│   ├── test_api.py    # API testing
+│   ├── test.py        # Additional testing
 │
-├── .env               # API keys (TomTom / HERE Maps)
+├── .env
 ├── .gitignore
-├── app.py             # Flask REST API
-├── compose.yml        # Kafka + Zookeeper setup (Docker)
-├── best_model.keras   # Backup trained model
-├── scaler.save        # Backup scaler
-├── image.png          # Project image / output
-├── urban_traffic_map.html  # Generated traffic map visualization
-├── README_data.md     # Additional documentation
+├── app.py
+├── compose.yml
+├── README.md
 ```
----
-
 ## ⚙️ Prerequisites
 
 * Python 3.10+
