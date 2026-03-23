@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🚦 Traffic Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 { margin-bottom: 30px; }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #3b82f6;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover { background: #2563eb; }
+
+        .card {
+            background: #1e293b;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            text-align: left;
+        }
+
+        .status-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .green { background: #22c55e; color: black; }
+        .red { background: #ef4444; color: white; }
+        .yellow { color: #facc15; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #444;
+        }
+
+        th { background: #334155; }
+    </style>
+</head>
+
+<body>
+
+<h1>🚦 Traffic API Dashboard</h1>
+
+<button onclick="checkHealth()">🔍 Health</button>
+<button onclick="getTraffic()">🌐 Live Traffic</button>
+<button onclick="predict()">🤖 Predict</button>
+
+<div id="result" class="card">
+    <h3>📊 Output</h3>
+    <p>Click a button...</p>
+</div>
+
+<script>
+
+// ==========================================
+// HEALTH (NEAT FORMAT)
+// ==========================================
+function checkHealth() {
+    fetch('/health')
+    .then(res => res.json())
+    .then(data => {
+
+        let statusColor = data.status === "running" ? "green" : "red";
+        let modelColor = data.model_loaded ? "green" : "red";
+
+        let html = `
+            <h3>🔍 Service Health</h3>
+
+            <div class="status-box ${statusColor}">
+                🚀 Server Status: ${data.status}
+            </div>
+
+            <div class="status-box ${modelColor}">
+                🤖 Model Loaded: ${data.model_loaded ? "Yes" : "No"}
+            </div>
+        `;
+
+        document.getElementById("result").innerHTML = html;
+    });
+}
+
+// ==========================================
+// LIVE TRAFFIC
+// ==========================================
+function getTraffic() {
+    fetch('/live-traffic')
+    .then(res => res.json())
+    .then(data => {
+
+        let html = "<h3>🌐 Live Traffic</h3><table>";
+        html += "<tr><th>Name</th><th>Speed</th><th>Temp</th><th>Time</th><th>Status</th></tr>";
+
+        data.forEach(row => {
+
+            let color = row.traffic.includes("Heavy") ? "red" :
+                        row.traffic.includes("Medium") ? "yellow" : "green";
+
+            html += `<tr>
+                <td>${row.name}</td>
+                <td>${row.speed}</td>
+                <td>${row.temperature}°C</td>
+                <td>${row.timestamp}</td>
+                <td class="${color}">${row.traffic}</td>
+            </tr>`;
+        });
+
+        html += "</table>";
+
+        document.getElementById("result").innerHTML = html;
+    });
+}
+
+// ==========================================
+// PREDICT
+// ==========================================
+function predict() {
+
+    let seq = [];
+
+    for(let i=0;i<12;i++){
+        let row = [];
+        for(let j=0;j<325;j++){
+            row.push(Math.random()*100);
+        }
+        seq.push(row);
+    }
+
+    document.getElementById("result").innerHTML = "<p>⏳ Predicting...</p>";
+
+    fetch('/predict', {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({sequence: seq})
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        let color = data.traffic.includes("Heavy") ? "red" :
+                    data.traffic.includes("Medium") ? "yellow" : "green";
+
+        let html = `
+            <h3>🤖 Prediction Result</h3>
+            <p><b>Time:</b> ${data.timestamp}</p>
+            <p><b>Next 4 Speeds:</b> ${data.next_4_predictions.map(v => v.toFixed(2)).join(", ")}</p>
+            <p><b>Avg Speed:</b> ${data.avg_speed.toFixed(2)}</p>
+            <p class="${color}"><b>Traffic:</b> ${data.traffic}</p>
+        `;
+
+        document.getElementById("result").innerHTML = html;
+    });
+}
+
+</script>
+
+</body>
+</html>

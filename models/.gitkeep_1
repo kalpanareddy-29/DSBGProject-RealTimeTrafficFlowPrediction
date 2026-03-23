@@ -1,0 +1,6 @@
+# This folder is intentionally empty.
+# After training, the following files will appear here (not committed — see .gitignore):
+#   traffic_bilstm_attention.keras
+#   best_model.keras
+#   scaler.save
+# Run: python src/model.py  to generate them.

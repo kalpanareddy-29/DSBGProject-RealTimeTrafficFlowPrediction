@@ -1,0 +1,62 @@
+# ==========================================
+# SECRETS — never commit these
+# ==========================================
+.env
+
+# ==========================================
+# LARGE DATA FILES — too big for GitHub
+# ==========================================
+*.h5
+*.npy
+data.csv
+stream_predictions.csv
+comparison_results.csv
+data copy.csv
+location copy.csv
+updated_file.csv
+
+# ==========================================
+# TRAINED MODELS — too big for GitHub
+# ==========================================
+*.keras
+*.h5
+*.save
+*.pkl
+*.pb
+saved_model/
+
+# ==========================================
+# PYTHON CACHE
+# ==========================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# ==========================================
+# VIRTUAL ENVIRONMENT
+# ==========================================
+venv/
+env/
+.venv/
+
+# ==========================================
+# OS FILES
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==========================================
+# JUPYTER NOTEBOOKS CHECKPOINTS
+# ==========================================
+.ipynb_checkpoints/
+
+# ==========================================
+# PYTEST CACHE
+# ==========================================
+.pytest_cache/
